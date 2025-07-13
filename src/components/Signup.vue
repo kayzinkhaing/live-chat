@@ -11,7 +11,7 @@
 <script>
 import { ref } from 'vue';
 import { auth } from "../firebase/config";
-import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { createUserWithEmailAndPassword,updateProfile } from 'firebase/auth';
 export default {
     setup(){
         let displayName=ref("");
@@ -24,7 +24,8 @@ export default {
               if(!res){
                 throw new Error("could not create new user")
               }
-            return (res.user);
+              await updateProfile(res.user,{displayName:displayName.value})
+              console.log(res.user);
             }catch(err){
               console.log(err.message);
             }
